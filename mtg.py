@@ -39,7 +39,6 @@ def magicsingles(card):
             y = "1" + y[1:]
         print "£" + x[x.index(">")+1:-7] + " , " + y.replace("Â","")
 
-        #print str(test[n].find("span", {"class" : "price"}))[142:-14]
     
 a = raw_input("Enter a card name: ")
 
