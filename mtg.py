@@ -4,6 +4,8 @@ import requests
 import warnings
 warnings.filterwarnings("ignore")
 
+#/////
+
 def magicmadhouse(card):
     a = card.replace(' ', '-').lower()
     c = "".join(z for z in a if z not in ('!','.',':',",","'"))
@@ -21,6 +23,8 @@ def magicmadhouse(card):
         if (x == card.lower() or x[:len(card)+2] == card.lower() + " ("):
             print x, ",", str(test[n].find("span",{ "class" : "GBP" }))[20:-7], ",", str(test[n].find("div",{ "class" : "product_stock_status" }))[35:-6]
 
+#/////
+            
 def magicsingles(card):
     a = card.replace(',','%2C').replace(' ','+').lower()
 
@@ -42,6 +46,8 @@ def magicsingles(card):
         if(z == card.lower() or z[:len(card)+2] == card.lower() + " (" or z[:len(card)+2] == card.lower() + " /"):
             print z, ",", "£" + x[x.index(">")+1:-7] , ",", y.replace("Â","")
 
+#/////
+            
 def trolltrader(card):
     a = card.replace(',','%2C').replace(' ','+').lower()
 
@@ -63,6 +69,8 @@ def trolltrader(card):
         if(z == card.lower() or z[:len(card)+2] == card.lower() + " -" or z[:len(card)+2] == card.lower() + " /"):           
             print z, ",", "".join(x[x.index(">")+1:-7].split())[1:], ",", y[:-7], "in stock"
 
+#/////
+            
 def manaleak(card):
     a = card.replace(',','%2C').replace(' ','+').lower()
 
@@ -85,6 +93,8 @@ def manaleak(card):
     
 a = raw_input("Enter a card name: ")
 
+#/////
+
 def magiccardtrader(card):
     a = card.replace(',','%2C').replace(' ','+').lower()
 
@@ -92,23 +102,36 @@ def magiccardtrader(card):
     data = r.text
     soup = BeautifulSoup(data,"html.parser")
 
-    test = soup.findAll("tr", { "class" : "product_row"})
+    test = soup.findAll("td", {"width":"100%"}, {'valign':"top"})
 
     for n in range(len(test)):
-        print str(test[n].find("td", {"class" : "qty"}))
-        print str(test[n].find("a href"))
+        x = str(test[n].find("td", {"class" : "qty"}))
+        y = str(test[n].find("td", {"class" : "price"}))[19:-5].strip()    
+        if x == "None":
+            x = "x 0"
+        else:
+            x = x[17:-5]
+            y = y[1:]
+        z = str(test[n])[31:]
+        z = z[z.index(">")+1:]
+        z = z[:z.index("<")].lower()
+        
+        if(z == card.lower() or z[:len(card)+2] == card.lower() + " -" or z[:len(card)+2] == card.lower() + " /"): 
+            print z, ",", y,",", x.strip()
     
 print "\nMagicSingles:\n"   
-#magicsingles(a)
+magicsingles(a)
 
 print "\nTrollTraders:\n"
-#trolltrader(a)
+trolltrader(a)
 
 print "\nManaLeak:\n"
-#manaleak(a)
-
-print "\nMagicMadhouse:\n"
-#magicmadhouse(a)
+manaleak(a)
 
 print "\nTheMagicCardTrader:\n"
 magiccardtrader(a)
+
+print "\nMagicMadhouse:\n"
+magicmadhouse(a)
+
+
