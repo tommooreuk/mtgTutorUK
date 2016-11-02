@@ -73,7 +73,6 @@ def magicsingles(card):
             y = y[y.index(">")+39:-40]
         if y[0] == "Â":
             y = "1" + y[1:]
-
         #If the card title matches the input value or is a variation of the same card (indicated by a '(' or '/' character):           
         if(z == card.lower() or z[:len(card)+2] == card.lower() + " (" or z[:len(card)+2] == card.lower() + " /"):
             #Print the title, price and quantity of the card.
